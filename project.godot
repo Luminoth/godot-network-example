@@ -10,14 +10,14 @@ config_version=5
 
 [application]
 
-config/name="network-test"
+config/name="network-example"
 run/main_scene="uid://bne1qd0fpfdug"
 config/features=PackedStringArray("4.4", "C#", "Mobile")
 config/icon="res://icon.svg"
 
 [dotnet]
 
-project/assembly_name="network-test"
+project/assembly_name="network-example"
 
 [input]
 
