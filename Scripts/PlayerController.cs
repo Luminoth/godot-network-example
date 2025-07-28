@@ -56,10 +56,10 @@ public partial class PlayerController : CharacterBody3D
 
     public void Jump()
     {
-        Rpc(MethodName.RpcJump);
+        RpcId(1, MethodName.RpcJump);
     }
 
-    // client broadcast
+    // client -> server
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
     private void RpcJump()
     {
