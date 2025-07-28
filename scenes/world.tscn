@@ -1,0 +1,94 @@
+[gd_scene load_steps=8 format=3 uid="uid://bne1qd0fpfdug"]
+
+[ext_resource type="PackedScene" uid="uid://bxxy05n0lkgoo" path="res://scenes/player.tscn" id="1_nnsk1"]
+[ext_resource type="Script" uid="uid://chyk2uix58vdc" path="res://Scripts/Level.cs" id="1_rwgxs"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e5uuo"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_nnsk1"]
+sky_material = SubResource("ProceduralSkyMaterial_e5uuo")
+
+[sub_resource type="Environment" id="Environment_rwgxs"]
+background_mode = 2
+sky = SubResource("Sky_nnsk1")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e5uuo"]
+size = Vector3(100, 0.1, 100)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_e5uuo"]
+size = Vector2(100, 100)
+
+[node name="Level" type="Node" node_paths=PackedStringArray("_networkUI", "_addressInput", "_spawner", "_spawnRoot")]
+script = ExtResource("1_rwgxs")
+_networkUI = NodePath("CanvasLayer")
+_addressInput = NodePath("CanvasLayer/VBoxContainer/HBoxContainer/LineEdit")
+_spawner = NodePath("MultiplayerSpawner")
+_spawnRoot = NodePath("MultiplayerSpawner/SpawnRoot")
+_playerScene = ExtResource("1_nnsk1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -54.0
+offset_right = 110.0
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Host" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Address:"
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "127.0.0.1:1234"
+
+[node name="Join" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_rwgxs")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.424199, -0.772124, 0.473158, 0, 0.522498, 0.85264, -0.905569, 0.361689, -0.221644, 0, 0, 0)
+light_color = Color(0.970242, 0.901911, 0.727636, 1)
+shadow_enabled = true
+
+[node name="Floor" type="Node3D" parent="."]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+shape = SubResource("BoxShape3D_e5uuo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("PlaneMesh_e5uuo")
+skeleton = NodePath("../..")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("SpawnRoot")
+
+[node name="SpawnRoot" type="Node" parent="MultiplayerSpawner"]
+
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/Join" to="." method="_on_join_pressed"]

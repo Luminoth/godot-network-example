@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=3 uid="uid://bxxy05n0lkgoo"]
+
+[ext_resource type="Script" uid="uid://bi48hiiqowf0s" path="res://Scripts/Player.cs" id="1_qhqgy"]
+[ext_resource type="Script" uid="uid://im2ihqn1mrrm" path="res://Scripts/PlayerController.cs" id="2_dqkch"]
+[ext_resource type="Script" uid="uid://5q3noxf7redy" path="res://Scripts/PlayerInput.cs" id="3_qlg0r"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e5uuo"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_e5uuo"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_nnsk1"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nnsk1"]
+properties/0/path = NodePath("../Input:_direction")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qhqgy"]
+properties/0/path = NodePath("CharacterBody3D:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("CharacterBody3D/Model:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:ClientId")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
+[node name="Player" type="Node" node_paths=PackedStringArray("_input", "_controller", "_model")]
+script = ExtResource("1_qhqgy")
+_input = NodePath("Input")
+_controller = NodePath("CharacterBody3D")
+_model = NodePath("CharacterBody3D/Model")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 2
+script = ExtResource("2_dqkch")
+_player = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_e5uuo")
+
+[node name="Model" type="Node3D" parent="CharacterBody3D"]
+
+[node name="Body" type="MeshInstance3D" parent="CharacterBody3D/Model"]
+mesh = SubResource("CapsuleMesh_e5uuo")
+
+[node name="Nose" type="MeshInstance3D" parent="CharacterBody3D/Model"]
+transform = Transform3D(0.2, 0, 0, 0, -8.74228e-09, -0.2, 0, 0.2, -8.74228e-09, 0, 0.25, -0.5)
+mesh = SubResource("CapsuleMesh_nnsk1")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 5, 10)
+
+[node name="Input" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("_player")]
+root_path = NodePath("../CharacterBody3D")
+replication_config = SubResource("SceneReplicationConfig_nnsk1")
+script = ExtResource("3_qlg0r")
+_player = NodePath("..")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_qhqgy")
