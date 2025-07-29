@@ -8,7 +8,6 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e5uuo"]
 
 [sub_resource type="Animation" id="Animation_dqkch"]
-resource_local_to_scene = true
 resource_name = "crouch"
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -83,12 +82,16 @@ properties/1/replication_mode = 2
 properties/2/path = NodePath("CharacterBody3D/PlayerModel:rotation")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath("CharacterBody3D/Player Name:text")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
-[node name="Player" type="Node" node_paths=PackedStringArray("_input", "_controller", "_model")]
+[node name="Player" type="Node" node_paths=PackedStringArray("_input", "_controller", "_model", "_playerNameLabel")]
 script = ExtResource("1_qhqgy")
 _input = NodePath("Input")
 _controller = NodePath("CharacterBody3D")
 _model = NodePath("CharacterBody3D/PlayerModel")
+_playerNameLabel = NodePath("CharacterBody3D/Player Name")
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_player", "_animationPlayer")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -106,6 +109,11 @@ shape = SubResource("CapsuleShape3D_e5uuo")
 libraries = {
 &"": SubResource("AnimationLibrary_qlg0r")
 }
+
+[node name="Player Name" type="Label3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+billboard = 1
+text = "Player Name"
 
 [node name="Input" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("_player")]
 root_path = NodePath("../CharacterBody3D")

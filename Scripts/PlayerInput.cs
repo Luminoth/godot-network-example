@@ -16,6 +16,7 @@ public partial class PlayerInput : MultiplayerSynchronizer
         // multiplayer authority set by parent (sync'd from server)
         bool isAuthority = GetMultiplayerAuthority() == Multiplayer.GetUniqueId();
         GD.Print($"[Player {_player.ClientId}] Input authority: {isAuthority}");
+
         SetProcess(isAuthority);
         SetProcessInput(isAuthority);
     }

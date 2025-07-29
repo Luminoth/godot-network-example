@@ -1,6 +1,7 @@
 using Godot;
 
 // sync'd body position (always) and model rotation (always)
+// sync'd _playerNameLabel.text (on change)
 public partial class Player : Node
 {
     private long _clientId;
@@ -32,6 +33,9 @@ public partial class Player : Node
 
     public Model Model => _model;
 
+    [Export]
+    private Label3D _playerNameLabel;
+
     public override void _Ready()
     {
         if (ClientId == Multiplayer.GetUniqueId())
@@ -43,5 +47,7 @@ public partial class Player : Node
             };
             Controller.AddChild(camera);
         }
+
+        _playerNameLabel.Text = Name;
     }
 }

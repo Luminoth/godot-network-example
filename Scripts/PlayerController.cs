@@ -27,6 +27,8 @@ public partial class PlayerController : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
     {
+        System.Diagnostics.Debug.Assert(Multiplayer.IsServer());
+
         var velocity = Velocity;
 
         // Add the gravity.
@@ -73,7 +75,10 @@ public partial class PlayerController : CharacterBody3D
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
     private void RpcJump()
     {
+        System.Diagnostics.Debug.Assert(Multiplayer.IsServer());
+
         GD.Print($"Player {Multiplayer.GetRemoteSenderId()} jump");
+
         _jump = true;
     }
 
@@ -81,6 +86,8 @@ public partial class PlayerController : CharacterBody3D
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
     private void RpcToggleCrouch()
     {
+        System.Diagnostics.Debug.Assert(Multiplayer.IsServer());
+
         GD.Print($"Player {Multiplayer.GetRemoteSenderId()} toggle crouch ({_player.Name})");
 
         _crouch = !_crouch;
