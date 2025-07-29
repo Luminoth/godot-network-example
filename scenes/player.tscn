@@ -6,37 +6,9 @@
 [ext_resource type="Script" uid="uid://5q3noxf7redy" path="res://Scripts/PlayerInput.cs" id="3_qlg0r"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e5uuo"]
-
-[sub_resource type="Animation" id="Animation_dqkch"]
 resource_local_to_scene = true
-resource_name = "crouch"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CollisionShape3D:shape:height")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [2.0, 1.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CollisionShape3D:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, -0.5, 0)]
-}
 
 [sub_resource type="Animation" id="Animation_qlg0r"]
-resource_local_to_scene = true
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -63,6 +35,33 @@ tracks/1/keys = {
 "values": [Vector3(0, 0, 0), Vector3(0, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_dqkch"]
+resource_name = "crouch"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape3D:shape:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.5, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qlg0r"]
 _data = {
 &"RESET": SubResource("Animation_qlg0r"),
@@ -87,6 +86,12 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath("CharacterBody3D/Player Name:text")
 properties/3/spawn = true
 properties/3/replication_mode = 2
+properties/4/path = NodePath("CharacterBody3D/CollisionShape3D:position")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("CharacterBody3D:CollisionHeight")
+properties/5/spawn = true
+properties/5/replication_mode = 2
 
 [node name="Player" type="Node" node_paths=PackedStringArray("_input", "_controller", "_model", "_playerNameLabel")]
 script = ExtResource("1_qhqgy")
@@ -95,12 +100,13 @@ _controller = NodePath("CharacterBody3D")
 _model = NodePath("CharacterBody3D/PlayerModel")
 _playerNameLabel = NodePath("CharacterBody3D/Player Name")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_player", "_animationPlayer")]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_player", "_animationPlayer", "_collisionShape")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
 script = ExtResource("2_dqkch")
 _player = NodePath("..")
 _animationPlayer = NodePath("AnimationPlayer")
+_collisionShape = NodePath("CollisionShape3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 shape = SubResource("CapsuleShape3D_e5uuo")

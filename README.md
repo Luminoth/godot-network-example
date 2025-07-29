@@ -1,5 +1,9 @@
 # Simple Godot network example
 
+## Notes
+
+* ColliderShape Shape must be Local to Scene or spawned from a saved scene if animating colliders
+
 ## Resources
 
 * https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html

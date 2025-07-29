@@ -9,6 +9,22 @@ public partial class PlayerController : CharacterBody3D
     private AnimationPlayer _animationPlayer;
 
     [Export]
+    private CollisionShape3D _collisionShape;
+
+    private CapsuleShape3D CollisionShape => (CapsuleShape3D)_collisionShape.Shape;
+
+    // sync'd (on change)
+    [Export]
+    private float CollisionHeight
+    {
+        get => CollisionShape.Height;
+        set
+        {
+            CollisionShape.Height = value;
+        }
+    }
+
+    [Export]
     private float _speed = 5.0f;
 
     [Export]
