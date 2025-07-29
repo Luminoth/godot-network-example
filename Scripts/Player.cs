@@ -2,6 +2,7 @@ using Godot;
 
 // sync'd body position (always) and model rotation (always)
 // sync'd _playerNameLabel.text (on change)
+// TODO: this could inherit from MultiplayerSynchronizer to clean things up a little
 public partial class Player : Node
 {
     private long _clientId;

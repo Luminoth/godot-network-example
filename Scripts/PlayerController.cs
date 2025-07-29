@@ -18,10 +18,7 @@ public partial class PlayerController : CharacterBody3D
     private float CollisionHeight
     {
         get => CollisionShape.Height;
-        set
-        {
-            CollisionShape.Height = value;
-        }
+        set => CollisionShape.Height = value;
     }
 
     [Export]
