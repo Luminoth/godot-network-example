@@ -16,6 +16,8 @@ public partial class PlayerController : CharacterBody3D
 
     private bool _jump;
 
+    private bool _crouch;
+
     public override void _Ready()
     {
         // arguably we may not want to do this because
@@ -62,10 +64,35 @@ public partial class PlayerController : CharacterBody3D
         RpcId(1, MethodName.RpcJump);
     }
 
+    public void ToggleCrouch()
+    {
+        RpcId(1, MethodName.RpcToggleCrouch);
+    }
+
     // client -> server
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
     private void RpcJump()
     {
+        GD.Print($"Player {Multiplayer.GetRemoteSenderId()} jump");
         _jump = true;
+    }
+
+    // client -> server
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+    private void RpcToggleCrouch()
+    {
+        GD.Print($"Player {Multiplayer.GetRemoteSenderId()} toggle crouch ({_player.Name})");
+
+        _crouch = !_crouch;
+        if (_crouch)
+        {
+            GD.Print($"Player path: {_animationPlayer.GetPath()}");
+            _animationPlayer.Play("crouch", -1, 5.0f);
+        }
+        else
+        {
+            GD.Print($"Player path: {_animationPlayer.GetPath()}");
+            _animationPlayer.Play("crouch", -1.0f, -5.0f, true);
+        }
     }
 }

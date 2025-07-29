@@ -27,6 +27,11 @@ public partial class PlayerInput : MultiplayerSynchronizer
             _player.Controller.Jump();
         }
 
+        if (Input.IsActionJustPressed("crouch"))
+        {
+            _player.Controller.ToggleCrouch();
+        }
+
         _direction = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
     }
 }

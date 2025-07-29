@@ -31,4 +31,17 @@ public partial class Player : Node
     private Model _model;
 
     public Model Model => _model;
+
+    public override void _Ready()
+    {
+        if (ClientId == Multiplayer.GetUniqueId())
+        {
+            var camera = new Camera3D
+            {
+                Position = new Vector3(0.0f, 5.0f, 10.0f),
+                RotationDegrees = new Vector3(-30.0f, 0.0f, 0.0f)
+            };
+            Controller.AddChild(camera);
+        }
+    }
 }
