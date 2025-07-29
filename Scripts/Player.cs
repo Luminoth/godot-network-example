@@ -28,7 +28,7 @@ public partial class Player : Node
     public PlayerController Controller => _controller;
 
     [Export]
-    private Node3D _model;
+    private Model _model;
 
-    public Node3D Model => _model;
+    public Model Model => _model;
 }

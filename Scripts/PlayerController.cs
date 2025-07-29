@@ -6,6 +6,9 @@ public partial class PlayerController : CharacterBody3D
     private Player _player;
 
     [Export]
+    private AnimationPlayer _animationPlayer;
+
+    [Export]
     private float _speed = 5.0f;
 
     [Export]
