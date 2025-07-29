@@ -8,6 +8,7 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e5uuo"]
 
 [sub_resource type="Animation" id="Animation_dqkch"]
+resource_local_to_scene = true
 resource_name = "crouch"
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -35,6 +36,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_qlg0r"]
+resource_local_to_scene = true
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
