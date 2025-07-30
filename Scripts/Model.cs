@@ -3,8 +3,28 @@ using Godot;
 public partial class Model : Node3D
 {
     [Export]
-    private AnimationTree _animationTree;
+    private AnimationPlayer _animationPlayer;
 
     [Export]
-    private AnimationPlayer _animationPlayer;
+    private AnimationTree _animationTree;
+
+    private AnimationNodeStateMachinePlayback _animationStateMachine;
+
+    public override void _EnterTree()
+    {
+        if (_animationTree != null)
+        {
+            _animationStateMachine = (AnimationNodeStateMachinePlayback)_animationTree.Get("parameters/playback");
+        }
+    }
+
+    public void PlayAnimation(StringName name, double customBlend = -1, float customSpeed = 1, bool fromEnd = false)
+    {
+        _animationPlayer.Play(name, customBlend, customSpeed, fromEnd);
+    }
+
+    public void ChangeState(StringName toNode)
+    {
+        _animationStateMachine.Travel(toNode);
+    }
 }

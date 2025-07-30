@@ -107,12 +107,16 @@ public partial class PlayerController : CharacterBody3D
         if (_crouch)
         {
             GD.Print($"Player path: {_animationPlayer.GetPath()}");
-            _animationPlayer.Play("crouch", -1, 5.0f);
+            _animationPlayer.Play("crouch", -1.0, 5.0f);
+            _player.Model.PlayAnimation("crouch", -1.0, 5.0f);
+            //_player.Model.ChangeState("crouch");
         }
         else
         {
             GD.Print($"Player path: {_animationPlayer.GetPath()}");
-            _animationPlayer.Play("crouch", -1.0f, -5.0f, true);
+            _animationPlayer.Play("crouch", -1.0, -5.0f, true);
+            _player.Model.PlayAnimation("crouch", -1.0, -5.0f, true);
+            //_player.Model.ChangeState("idle");
         }
     }
 }

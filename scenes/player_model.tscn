@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bdc51m5ixv3bo"]
+[gd_scene load_steps=11 format=3 uid="uid://bdc51m5ixv3bo"]
 
 [ext_resource type="Script" uid="uid://bhoq380k4ont5" path="res://Scripts/Model.cs" id="1_fr7j6"]
 
@@ -10,8 +10,88 @@
 resource_name = "idle"
 loop_mode = 1
 
+[sub_resource type="Animation" id="Animation_cggpe"]
+resource_name = "crouch"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:mesh:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.5, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Nose:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0.25, -0.5), Vector3(0, -0.5, -0.5)]
+}
+
+[sub_resource type="Animation" id="Animation_73kw6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:mesh:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Nose:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.25, -0.5)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cggpe"]
 _data = {
+&"RESET": SubResource("Animation_73kw6"),
+&"crouch": SubResource("Animation_cggpe"),
 &"idle": SubResource("Animation_fr7j6")
 }
 
@@ -22,16 +102,15 @@ animation = &"idle"
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_fr7j6"]
-states/Start/position = Vector2(222.667, 100.444)
 states/idle/node = SubResource("AnimationNodeAnimation_fr7j6")
-states/idle/position = Vector2(416, 99.4074)
+states/idle/position = Vector2(448.667, 99.2222)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_cggpe")]
-graph_offset = Vector2(-115, -97)
+graph_offset = Vector2(-29, -117)
 
-[node name="PlayerModel" type="Node3D" node_paths=PackedStringArray("_animationTree", "_animationPlayer")]
+[node name="PlayerModel" type="Node3D" node_paths=PackedStringArray("_animationPlayer", "_animationTree")]
 script = ExtResource("1_fr7j6")
-_animationTree = NodePath("AnimationTree")
 _animationPlayer = NodePath("AnimationPlayer")
+_animationTree = NodePath("")
 
 [node name="Body" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_e5uuo")
@@ -41,12 +120,10 @@ transform = Transform3D(0.2, 0, 0, 0, -8.74228e-09, -0.2, 0, 0.2, -8.74228e-09, 
 mesh = SubResource("CapsuleMesh_nnsk1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../../..")
 libraries = {
 &"": SubResource("AnimationLibrary_cggpe")
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-root_node = NodePath("../../..")
 tree_root = SubResource("AnimationNodeStateMachine_fr7j6")
 anim_player = NodePath("../AnimationPlayer")
