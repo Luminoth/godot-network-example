@@ -76,17 +76,17 @@ public partial class PlayerController : CharacterBody3D
 
     public void Jump()
     {
-        RpcId(1, MethodName.RpcJump);
+        RpcId(1, MethodName.RpcClientJump);
     }
 
     public void ToggleCrouch()
     {
-        RpcId(1, MethodName.RpcToggleCrouch);
+        RpcId(1, MethodName.RpcClientToggleCrouch);
     }
 
     // client -> server
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-    private void RpcJump()
+    private void RpcClientJump()
     {
         System.Diagnostics.Debug.Assert(Multiplayer.IsServer());
 
@@ -97,26 +97,36 @@ public partial class PlayerController : CharacterBody3D
 
     // client -> server
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-    private void RpcToggleCrouch()
+    private void RpcClientToggleCrouch()
     {
         System.Diagnostics.Debug.Assert(Multiplayer.IsServer());
 
         GD.Print($"Player {Multiplayer.GetRemoteSenderId()} toggle crouch ({_player.Name})");
 
         _crouch = !_crouch;
-        if (_crouch)
+        Rpc(MethodName.RpcServerBroadcastToggleCrouch, _crouch);
+    }
+
+    // server broadcast
+    // TODO: only passing in crouch for now because it's not sync'd
+    [Rpc(CallLocal = true)]
+    private void RpcServerBroadcastToggleCrouch(bool crouch)
+    {
+        GD.Print($"Server toggle crouch ({_player.Name})");
+
+        if (crouch)
         {
             GD.Print($"Player path: {_animationPlayer.GetPath()}");
             _animationPlayer.Play("crouch", -1.0, 5.0f);
-            _player.Model.PlayAnimation("crouch", -1.0, 5.0f);
-            //_player.Model.ChangeState("crouch");
+            //_player.Model.PlayAnimation("crouch", -1.0, 5.0f);
+            _player.Model.ChangeState("crouch");
         }
         else
         {
             GD.Print($"Player path: {_animationPlayer.GetPath()}");
             _animationPlayer.Play("crouch", -1.0, -5.0f, true);
-            _player.Model.PlayAnimation("crouch", -1.0, -5.0f, true);
-            //_player.Model.ChangeState("idle");
+            //_player.Model.PlayAnimation("crouch", -1.0, -5.0f, true);
+            _player.Model.ChangeState("idle");
         }
     }
 }

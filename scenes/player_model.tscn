@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://bdc51m5ixv3bo"]
+[gd_scene load_steps=14 format=3 uid="uid://bdc51m5ixv3bo"]
 
 [ext_resource type="Script" uid="uid://bhoq380k4ont5" path="res://Scripts/Model.cs" id="1_fr7j6"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_e5uuo"]
+resource_local_to_scene = true
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_nnsk1"]
 
@@ -95,22 +96,31 @@ _data = {
 &"idle": SubResource("Animation_fr7j6")
 }
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cggpe"]
+animation = &"crouch"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fr7j6"]
 animation = &"idle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cggpe"]
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_73kw6"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_aw2h2"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_fr7j6"]
+states/crouch/node = SubResource("AnimationNodeAnimation_cggpe")
+states/crouch/position = Vector2(677, -53)
 states/idle/node = SubResource("AnimationNodeAnimation_fr7j6")
 states/idle/position = Vector2(448.667, 99.2222)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_cggpe")]
-graph_offset = Vector2(-29, -117)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_cggpe"), "idle", "crouch", SubResource("AnimationNodeStateMachineTransition_73kw6"), "crouch", "idle", SubResource("AnimationNodeStateMachineTransition_aw2h2")]
+graph_offset = Vector2(-68, -154)
 
 [node name="PlayerModel" type="Node3D" node_paths=PackedStringArray("_animationPlayer", "_animationTree")]
 script = ExtResource("1_fr7j6")
 _animationPlayer = NodePath("AnimationPlayer")
-_animationTree = NodePath("")
+_animationTree = NodePath("AnimationTree")
 
 [node name="Body" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_e5uuo")

@@ -3,6 +3,7 @@
 ## Notes
 
 * ColliderShape Shape must be Local to Scene or spawned from a saved scene if animating colliders
+  * Same for MeshInstance3D Mesh if animating, and really any other sub object that gets animated
 
 ## Resources
 
