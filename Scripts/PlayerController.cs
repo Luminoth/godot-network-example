@@ -29,7 +29,9 @@ public partial class PlayerController : CharacterBody3D
 
     private bool _jump;
 
-    private bool _crouch;
+    // sync'd (on change)
+    [Export]
+    private bool _isCrouching;
 
     public override void _Ready()
     {
@@ -103,12 +105,10 @@ public partial class PlayerController : CharacterBody3D
 
         GD.Print($"Player {Multiplayer.GetRemoteSenderId()} toggle crouch ({_player.Name})");
 
-        _crouch = !_crouch;
-        Rpc(MethodName.RpcServerBroadcastToggleCrouch, _crouch);
+        Rpc(MethodName.RpcServerBroadcastToggleCrouch, !_isCrouching);
     }
 
     // server broadcast
-    // TODO: only passing in crouch for now because it's not sync'd
     [Rpc(CallLocal = true)]
     private void RpcServerBroadcastToggleCrouch(bool crouch)
     {
@@ -116,15 +116,18 @@ public partial class PlayerController : CharacterBody3D
 
         if (crouch)
         {
-            GD.Print($"Player path: {_animationPlayer.GetPath()}");
             _animationPlayer.Play("crouch", -1.0, 5.0f);
             _player.Model.ChangeState("crouch");
         }
         else
         {
-            GD.Print($"Player path: {_animationPlayer.GetPath()}");
             _animationPlayer.Play("crouch", -1.0, -5.0f, true);
             _player.Model.ChangeState("uncrouch");
+        }
+
+        if (this.IsNetworkAuthority())
+        {
+            _isCrouching = crouch;
         }
     }
 }

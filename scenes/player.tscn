@@ -92,6 +92,9 @@ properties/4/replication_mode = 1
 properties/5/path = NodePath("CharacterBody3D:CollisionHeight")
 properties/5/spawn = true
 properties/5/replication_mode = 2
+properties/6/path = NodePath("CharacterBody3D:_isCrouching")
+properties/6/spawn = true
+properties/6/replication_mode = 1
 
 [node name="Player" type="Node" node_paths=PackedStringArray("_input", "_controller", "_model", "_playerNameLabel")]
 script = ExtResource("1_qhqgy")
