@@ -97,7 +97,7 @@ spawn_path = NodePath("SpawnRoot")
 [node name="SpawnRoot" type="Node" parent="MultiplayerSpawner"]
 
 [node name="Platform" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2, -15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2.25, -15)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Platform"]
 
@@ -108,7 +108,7 @@ shape = SubResource("BoxShape3D_rwgxs")
 mesh = SubResource("BoxMesh_rwgxs")
 
 [node name="Platform2" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 5, -15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 3, -15)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Platform2"]
 
