@@ -23,6 +23,11 @@ public partial class Model : Node3D
         _animationPlayer.Play(name, customBlend, customSpeed, fromEnd);
     }
 
+    public void SetParameter(StringName property, Variant value)
+    {
+        _animationTree.Set(property, value);
+    }
+
     public void ChangeState(StringName toNode)
     {
         _animationStateMachine.Travel(toNode);

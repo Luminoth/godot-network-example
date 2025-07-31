@@ -29,15 +29,39 @@ public partial class PlayerController : CharacterBody3D
 
     private bool _jump;
 
+    private bool _isCrouching;
+
     // sync'd (on change)
     [Export]
-    private bool _isCrouching;
+    private bool IsCrouching
+    {
+        get => _isCrouching;
+        set
+        {
+            _isCrouching = value;
+
+            _player.Model.SetParameter("parameters/conditions/is_crouching", _isCrouching);
+            _player.Model.SetParameter("parameters/conditions/is_not_crouching", !_isCrouching);
+
+            if (_isCrouching)
+            {
+                _animationPlayer.Play("crouch", -1.0, 5.0f);
+            }
+            else
+            {
+                _animationPlayer.Play("crouch", -1.0, -5.0f, true);
+            }
+        }
+    }
 
     public override void _Ready()
     {
         // arguably we may not want to do this because
         // letting it run on clients might help with prediction later?
         SetPhysicsProcess(Multiplayer.IsServer());
+
+        _player.Model.SetParameter("parameters/crouch/TimeScale/scale", 5.0f);
+        _player.Model.SetParameter("parameters/uncrouch/TimeScale/scale", 5.0f);
     }
 
     public override void _PhysicsProcess(double delta)
@@ -46,7 +70,6 @@ public partial class PlayerController : CharacterBody3D
 
         var velocity = Velocity;
 
-        // Add the gravity.
         if (!IsOnFloor())
         {
             velocity += GetGravity() * (float)delta;
@@ -103,31 +126,8 @@ public partial class PlayerController : CharacterBody3D
     {
         System.Diagnostics.Debug.Assert(Multiplayer.IsServer());
 
-        GD.Print($"Player {Multiplayer.GetRemoteSenderId()} toggle crouch ({_player.Name})");
+        GD.Print($"Player {Multiplayer.GetRemoteSenderId()} toggle crouch");
 
-        Rpc(MethodName.RpcServerBroadcastToggleCrouch, !_isCrouching);
-    }
-
-    // server broadcast
-    [Rpc(CallLocal = true)]
-    private void RpcServerBroadcastToggleCrouch(bool crouch)
-    {
-        GD.Print($"Server toggle crouch ({_player.Name})");
-
-        if (crouch)
-        {
-            _animationPlayer.Play("crouch", -1.0, 5.0f);
-            _player.Model.ChangeState("crouch");
-        }
-        else
-        {
-            _animationPlayer.Play("crouch", -1.0, -5.0f, true);
-            _player.Model.ChangeState("uncrouch");
-        }
-
-        if (this.IsNetworkAuthority())
-        {
-            _isCrouching = crouch;
-        }
+        IsCrouching = !IsCrouching;
     }
 }
