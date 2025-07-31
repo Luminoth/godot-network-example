@@ -19,6 +19,8 @@ public partial class Player : Node
         }
     }
 
+    public bool IsLocalPlayer => ClientId == Multiplayer.GetUniqueId();
+
     [Export]
     private PlayerInput _input;
 
@@ -39,7 +41,7 @@ public partial class Player : Node
 
     public override void _Ready()
     {
-        if (ClientId == Multiplayer.GetUniqueId())
+        if (IsLocalPlayer)
         {
             var camera = new Camera3D
             {

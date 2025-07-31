@@ -14,11 +14,10 @@ public partial class PlayerInput : MultiplayerSynchronizer
     public override void _Ready()
     {
         // multiplayer authority set by parent (sync'd from server)
-        bool isAuthority = GetMultiplayerAuthority() == Multiplayer.GetUniqueId();
-        GD.Print($"[Player {_player.ClientId}] Input authority: {isAuthority}");
+        GD.Print($"[Player {_player.ClientId}] Input authority: {this.IsNetworkAuthority()}");
 
-        SetProcess(isAuthority);
-        SetProcessInput(isAuthority);
+        SetProcess(this.IsNetworkAuthority());
+        SetProcessInput(this.IsNetworkAuthority());
     }
 
     public override void _Process(double delta)
