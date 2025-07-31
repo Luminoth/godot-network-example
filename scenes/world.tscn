@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bne1qd0fpfdug"]
+[gd_scene load_steps=10 format=3 uid="uid://bne1qd0fpfdug"]
 
 [ext_resource type="PackedScene" uid="uid://bxxy05n0lkgoo" path="res://scenes/player.tscn" id="1_nnsk1"]
 [ext_resource type="Script" uid="uid://chyk2uix58vdc" path="res://Scripts/Level.cs" id="1_rwgxs"]
@@ -21,6 +21,12 @@ size = Vector3(100, 0.1, 100)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_e5uuo"]
 size = Vector2(100, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rwgxs"]
+size = Vector3(10, 1, 5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rwgxs"]
+size = Vector3(10, 1, 5)
 
 [node name="Level" type="Node" node_paths=PackedStringArray("_networkUI", "_addressInput", "_spawner", "_spawnRoot")]
 script = ExtResource("1_rwgxs")
@@ -89,6 +95,28 @@ skeleton = NodePath("../..")
 spawn_path = NodePath("SpawnRoot")
 
 [node name="SpawnRoot" type="Node" parent="MultiplayerSpawner"]
+
+[node name="Platform" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2, -15)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Platform"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/StaticBody3D"]
+shape = SubResource("BoxShape3D_rwgxs")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platform"]
+mesh = SubResource("BoxMesh_rwgxs")
+
+[node name="Platform2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 5, -15)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Platform2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform2/StaticBody3D"]
+shape = SubResource("BoxShape3D_rwgxs")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platform2"]
+mesh = SubResource("BoxMesh_rwgxs")
 
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/Join" to="." method="_on_join_pressed"]

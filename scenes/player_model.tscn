@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bdc51m5ixv3bo"]
+[gd_scene load_steps=21 format=3 uid="uid://bdc51m5ixv3bo"]
 
 [ext_resource type="Script" uid="uid://bhoq380k4ont5" path="res://Scripts/Model.cs" id="1_fr7j6"]
 
@@ -7,9 +7,44 @@ resource_local_to_scene = true
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_nnsk1"]
 
-[sub_resource type="Animation" id="Animation_fr7j6"]
-resource_name = "idle"
-loop_mode = 1
+[sub_resource type="Animation" id="Animation_73kw6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:mesh:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Nose:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.25, -0.5)]
+}
 
 [sub_resource type="Animation" id="Animation_cggpe"]
 resource_name = "crouch"
@@ -50,8 +85,48 @@ tracks/2/keys = {
 "values": [Vector3(0, 0.25, -0.5), Vector3(0, -0.5, -0.5)]
 }
 
-[sub_resource type="Animation" id="Animation_73kw6"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_fr7j6"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:mesh:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Nose:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.25, -0.5)]
+}
+
+[sub_resource type="Animation" id="Animation_aw2h2"]
+resource_name = "crouch_idle"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -93,29 +168,60 @@ tracks/2/keys = {
 _data = {
 &"RESET": SubResource("Animation_73kw6"),
 &"crouch": SubResource("Animation_cggpe"),
+&"crouch_idle": SubResource("Animation_aw2h2"),
 &"idle": SubResource("Animation_fr7j6")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cggpe"]
 animation = &"crouch"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_aw2h2"]
+animation = &"idle"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fr7j6"]
 animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_73kw6"]
+animation = &"crouch"
+play_mode = 1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cggpe"]
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_73kw6"]
+reset = false
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hdi6l"]
+reset = false
+switch_mode = 2
+advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_aw2h2"]
+reset = false
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_uf48d"]
+reset = false
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_fr7j6"]
+reset = false
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vo122"]
+reset = false
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_fr7j6"]
+states/End/position = Vector2(1336, 93.3333)
 states/crouch/node = SubResource("AnimationNodeAnimation_cggpe")
-states/crouch/position = Vector2(677, -53)
+states/crouch/position = Vector2(505.667, -27)
+states/crouch_idle/node = SubResource("AnimationNodeAnimation_aw2h2")
+states/crouch_idle/position = Vector2(703.333, -148.667)
 states/idle/node = SubResource("AnimationNodeAnimation_fr7j6")
 states/idle/position = Vector2(448.667, 99.2222)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_cggpe"), "idle", "crouch", SubResource("AnimationNodeStateMachineTransition_73kw6"), "crouch", "idle", SubResource("AnimationNodeStateMachineTransition_aw2h2")]
-graph_offset = Vector2(-68, -154)
+states/uncrouch/node = SubResource("AnimationNodeAnimation_73kw6")
+states/uncrouch/position = Vector2(905.333, -28.1482)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_cggpe"), "idle", "crouch", SubResource("AnimationNodeStateMachineTransition_73kw6"), "crouch", "crouch_idle", SubResource("AnimationNodeStateMachineTransition_hdi6l"), "crouch_idle", "uncrouch", SubResource("AnimationNodeStateMachineTransition_aw2h2"), "uncrouch", "idle", SubResource("AnimationNodeStateMachineTransition_uf48d"), "crouch", "uncrouch", SubResource("AnimationNodeStateMachineTransition_fr7j6"), "uncrouch", "crouch", SubResource("AnimationNodeStateMachineTransition_vo122")]
+graph_offset = Vector2(-93, -224)
 
 [node name="PlayerModel" type="Node3D" node_paths=PackedStringArray("_animationPlayer", "_animationTree")]
 script = ExtResource("1_fr7j6")
