@@ -6,9 +6,6 @@ public partial class PlayerController : CharacterBody3D
     private Player _player;
 
     [Export]
-    private AnimationPlayer _animationPlayer;
-
-    [Export]
     private CollisionShape3D _collisionShape;
 
     private CapsuleShape3D CollisionShape => (CapsuleShape3D)_collisionShape.Shape;
@@ -20,6 +17,12 @@ public partial class PlayerController : CharacterBody3D
         get => CollisionShape.Height;
         set => CollisionShape.Height = value;
     }
+
+    [Export]
+    private ShapeCast3D _headCollision;
+
+    [Export]
+    private AnimationPlayer _animationPlayer;
 
     [Export]
     private float _speed = 5.0f;
@@ -52,6 +55,11 @@ public partial class PlayerController : CharacterBody3D
                 _animationPlayer.Play("crouch", -1.0, -5.0f, true);
             }
         }
+    }
+
+    public override void _EnterTree()
+    {
+        _headCollision.ExcludeParent = true;
     }
 
     public override void _Ready()
@@ -128,6 +136,13 @@ public partial class PlayerController : CharacterBody3D
 
         GD.Print($"Player {Multiplayer.GetRemoteSenderId()} toggle crouch");
 
-        IsCrouching = !IsCrouching;
+        if (IsCrouching && !_headCollision.IsColliding())
+        {
+            IsCrouching = false;
+        }
+        else if (!IsCrouching)
+        {
+            IsCrouching = true;
+        }
     }
 }

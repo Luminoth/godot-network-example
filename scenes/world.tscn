@@ -82,7 +82,7 @@ shadow_enabled = true
 [node name="Floor" type="Node3D" parent="."]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
-collision_mask = 2
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
 shape = SubResource("BoxShape3D_e5uuo")
@@ -100,6 +100,7 @@ spawn_path = NodePath("SpawnRoot")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2.25, -15)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Platform"]
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/StaticBody3D"]
 shape = SubResource("BoxShape3D_rwgxs")
@@ -111,6 +112,7 @@ mesh = SubResource("BoxMesh_rwgxs")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 3, -15)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Platform2"]
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Platform2/StaticBody3D"]
 shape = SubResource("BoxShape3D_rwgxs")

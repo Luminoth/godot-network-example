@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bxxy05n0lkgoo"]
+[gd_scene load_steps=12 format=3 uid="uid://bxxy05n0lkgoo"]
 
 [ext_resource type="Script" uid="uid://bi48hiiqowf0s" path="res://Scripts/Player.cs" id="1_qhqgy"]
 [ext_resource type="Script" uid="uid://im2ihqn1mrrm" path="res://Scripts/PlayerController.cs" id="2_dqkch"]
@@ -7,6 +7,8 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e5uuo"]
 resource_local_to_scene = true
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_dqkch"]
 
 [sub_resource type="Animation" id="Animation_qlg0r"]
 length = 0.001
@@ -103,28 +105,35 @@ _controller = NodePath("CharacterBody3D")
 _model = NodePath("CharacterBody3D/PlayerModel")
 _playerNameLabel = NodePath("CharacterBody3D/Player Name")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_player", "_animationPlayer", "_collisionShape")]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_player", "_collisionShape", "_headCollision", "_animationPlayer")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
 script = ExtResource("2_dqkch")
 _player = NodePath("..")
-_animationPlayer = NodePath("AnimationPlayer")
 _collisionShape = NodePath("CollisionShape3D")
+_headCollision = NodePath("ShapeCast3D")
+_animationPlayer = NodePath("../AnimationPlayer")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 shape = SubResource("CapsuleShape3D_e5uuo")
 
 [node name="PlayerModel" parent="CharacterBody3D" instance=ExtResource("3_dqkch")]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody3D"]
-libraries = {
-&"": SubResource("AnimationLibrary_qlg0r")
-}
+[node name="ShapeCast3D" type="ShapeCast3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("SphereShape3D_dqkch")
+target_position = Vector3(0, 0.5, 0)
 
 [node name="Player Name" type="Label3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 billboard = 1
 text = "Player Name"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../CharacterBody3D")
+libraries = {
+&"": SubResource("AnimationLibrary_qlg0r")
+}
 
 [node name="Input" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("_player")]
 root_path = NodePath("../CharacterBody3D")
