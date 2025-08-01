@@ -11,6 +11,9 @@ public partial class PlayerInput : MultiplayerSynchronizer
 
     public Vector2 Direction => _direction;
 
+    [Export]
+    private bool _holdCrouch;
+
     public override void _Ready()
     {
         // multiplayer authority set by parent (sync'd from server)
@@ -29,7 +32,18 @@ public partial class PlayerInput : MultiplayerSynchronizer
 
         if (Input.IsActionJustPressed("crouch"))
         {
-            _player.Controller.ToggleCrouch();
+            if (_holdCrouch)
+            {
+                _player.Controller.Crouch(true);
+            }
+            else
+            {
+                _player.Controller.ToggleCrouch();
+            }
+        }
+        else if (_holdCrouch && Input.IsActionJustReleased("crouch"))
+        {
+            _player.Controller.Crouch(false);
         }
 
         _direction = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");

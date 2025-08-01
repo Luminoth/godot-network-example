@@ -38,15 +38,6 @@ public partial class Level : Node
         RootMultiplayer.MultiplayerPeer = null;
     }
 
-    private void OnPlayerConnected(long id)
-    {
-        System.Diagnostics.Debug.Assert(Multiplayer.IsServer());
-
-        GD.Print($"Player {id} connected ...");
-
-        SpawnPlayer(id);
-    }
-
     private void SpawnPlayer(long id)
     {
         System.Diagnostics.Debug.Assert(Multiplayer.IsServer());
@@ -56,6 +47,15 @@ public partial class Level : Node
         var player = _playerScene.Instantiate<Player>();
         player.ClientId = id;
         _spawnRoot.AddChild(player, true);
+    }
+
+    private void OnPlayerConnected(long id)
+    {
+        System.Diagnostics.Debug.Assert(Multiplayer.IsServer());
+
+        GD.Print($"Player {id} connected ...");
+
+        SpawnPlayer(id);
     }
 
     private void _on_host_pressed()

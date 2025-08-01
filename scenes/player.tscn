@@ -91,12 +91,9 @@ properties/3/replication_mode = 2
 properties/4/path = NodePath("CharacterBody3D/CollisionShape3D:position")
 properties/4/spawn = true
 properties/4/replication_mode = 1
-properties/5/path = NodePath("CharacterBody3D:CollisionHeight")
+properties/5/path = NodePath("CharacterBody3D:IsCrouching")
 properties/5/spawn = true
 properties/5/replication_mode = 2
-properties/6/path = NodePath("CharacterBody3D:IsCrouching")
-properties/6/spawn = true
-properties/6/replication_mode = 2
 
 [node name="Player" type="Node" node_paths=PackedStringArray("_input", "_controller", "_model", "_playerNameLabel")]
 script = ExtResource("1_qhqgy")
@@ -105,12 +102,11 @@ _controller = NodePath("CharacterBody3D")
 _model = NodePath("CharacterBody3D/PlayerModel")
 _playerNameLabel = NodePath("CharacterBody3D/Player Name")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_player", "_collisionShape", "_headCollision", "_animationPlayer")]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_player", "_headCollision", "_animationPlayer")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
 script = ExtResource("2_dqkch")
 _player = NodePath("..")
-_collisionShape = NodePath("CollisionShape3D")
 _headCollision = NodePath("ShapeCast3D")
 _animationPlayer = NodePath("../AnimationPlayer")
 
@@ -140,6 +136,7 @@ root_path = NodePath("../CharacterBody3D")
 replication_config = SubResource("SceneReplicationConfig_nnsk1")
 script = ExtResource("3_qlg0r")
 _player = NodePath("..")
+_holdCrouch = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_qhqgy")
