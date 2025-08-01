@@ -28,7 +28,7 @@ size = Vector3(10, 1, 5)
 [sub_resource type="BoxMesh" id="BoxMesh_rwgxs"]
 size = Vector3(10, 1, 5)
 
-[node name="Level" type="Node" node_paths=PackedStringArray("_networkUI", "_addressInput", "_spawner", "_spawnRoot")]
+[node name="Level" type="Node3D" node_paths=PackedStringArray("_networkUI", "_addressInput", "_spawner", "_spawnRoot")]
 script = ExtResource("1_rwgxs")
 _networkUI = NodePath("CanvasLayer")
 _addressInput = NodePath("CanvasLayer/VBoxContainer/HBoxContainer/LineEdit")
@@ -79,6 +79,11 @@ transform = Transform3D(-0.424199, -0.772124, 0.473158, 0, 0.522498, 0.85264, -0
 light_color = Color(0.970242, 0.901911, 0.727636, 1)
 shadow_enabled = true
 
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("SpawnRoot")
+
+[node name="SpawnRoot" type="Node3D" parent="MultiplayerSpawner"]
+
 [node name="Floor" type="Node3D" parent="."]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
@@ -90,11 +95,6 @@ shape = SubResource("BoxShape3D_e5uuo")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 mesh = SubResource("PlaneMesh_e5uuo")
 skeleton = NodePath("../..")
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-spawn_path = NodePath("SpawnRoot")
-
-[node name="SpawnRoot" type="Node" parent="MultiplayerSpawner"]
 
 [node name="Platform" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2.25, -15)

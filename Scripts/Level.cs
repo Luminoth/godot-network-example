@@ -2,7 +2,7 @@ using Godot;
 
 using System.Globalization;
 
-public partial class Level : Node
+public partial class Level : Node3D
 {
     [Export]
     private int _defaultPort = 12345;
@@ -17,7 +17,7 @@ public partial class Level : Node
     private MultiplayerSpawner _spawner;
 
     [Export]
-    private Node _spawnRoot;
+    private Node3D _spawnRoot;
 
     [Export]
     private PackedScene _playerScene;
