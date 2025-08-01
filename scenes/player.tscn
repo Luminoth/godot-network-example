@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bxxy05n0lkgoo"]
+[gd_scene load_steps=30 format=3 uid="uid://bxxy05n0lkgoo"]
 
 [ext_resource type="Script" uid="uid://bi48hiiqowf0s" path="res://Scripts/Player.cs" id="1_qhqgy"]
 [ext_resource type="Script" uid="uid://im2ihqn1mrrm" path="res://Scripts/PlayerController.cs" id="2_dqkch"]
@@ -64,11 +64,144 @@ tracks/1/keys = {
 "values": [Vector3(0, 0, 0), Vector3(0, -0.25, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_tuyoq"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape3D:shape:height")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_fjrip"]
+resource_name = "crouch_idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape3D:shape:height")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.25, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qlg0r"]
 _data = {
 &"RESET": SubResource("Animation_qlg0r"),
-&"crouch": SubResource("Animation_dqkch")
+&"crouch": SubResource("Animation_dqkch"),
+&"crouch_idle": SubResource("Animation_fjrip"),
+&"idle": SubResource("Animation_tuyoq")
 }
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qlg0r"]
+animation = &"crouch"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_tuyoq"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_qlg0r"]
+graph_offset = Vector2(-385.333, -45.3333)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_qlg0r")
+nodes/Animation/position = Vector2(-160, 93.3333)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_tuyoq")
+nodes/TimeScale/position = Vector2(80, 80)
+node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fjrip"]
+animation = &"crouch_idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dqkch"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tuyoq"]
+animation = &"crouch"
+play_mode = 1
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_fjrip"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_tuyoq"]
+graph_offset = Vector2(-477.128, -65.3258)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_tuyoq")
+nodes/Animation/position = Vector2(-173.333, 146.667)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_fjrip")
+nodes/TimeScale/position = Vector2(53.3333, 120)
+node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qlg0r"]
+switch_mode = 1
+advance_mode = 2
+advance_condition = &"is_not_crouching"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tuyoq"]
+switch_mode = 1
+advance_mode = 2
+advance_condition = &"is_crouching"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_fjrip"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_smehm"]
+advance_mode = 2
+advance_condition = &"is_crouching"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dqkch"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ur7pv"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y4r1p"]
+advance_mode = 2
+advance_condition = &"is_not_crouching"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_dqkch"]
+states/Start/position = Vector2(185.333, 98.8889)
+states/crouch/node = SubResource("AnimationNodeBlendTree_qlg0r")
+states/crouch/position = Vector2(421.556, -66.2346)
+states/crouch_idle/node = SubResource("AnimationNodeAnimation_fjrip")
+states/crouch_idle/position = Vector2(556.667, -183)
+states/idle/node = SubResource("AnimationNodeAnimation_dqkch")
+states/idle/position = Vector2(391, 100.111)
+states/uncrouch/node = SubResource("AnimationNodeBlendTree_tuyoq")
+states/uncrouch/position = Vector2(662.889, -65.823)
+transitions = ["crouch", "uncrouch", SubResource("AnimationNodeStateMachineTransition_qlg0r"), "uncrouch", "crouch", SubResource("AnimationNodeStateMachineTransition_tuyoq"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_fjrip"), "idle", "crouch", SubResource("AnimationNodeStateMachineTransition_smehm"), "uncrouch", "idle", SubResource("AnimationNodeStateMachineTransition_dqkch"), "crouch", "crouch_idle", SubResource("AnimationNodeStateMachineTransition_ur7pv"), "crouch_idle", "uncrouch", SubResource("AnimationNodeStateMachineTransition_y4r1p")]
+graph_offset = Vector2(-269, -216)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nnsk1"]
 properties/0/path = NodePath("../Input:_direction")
@@ -102,13 +235,13 @@ _controller = NodePath("CharacterBody3D")
 _model = NodePath("CharacterBody3D/PlayerModel")
 _playerNameLabel = NodePath("CharacterBody3D/Player Name")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_player", "_headCollision", "_animationPlayer")]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_player", "_headCollision", "_animationTree")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
 script = ExtResource("2_dqkch")
 _player = NodePath("..")
 _headCollision = NodePath("ShapeCast3D")
-_animationPlayer = NodePath("../AnimationPlayer")
+_animationTree = NodePath("../AnimationTree")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 shape = SubResource("CapsuleShape3D_e5uuo")
@@ -130,6 +263,15 @@ root_node = NodePath("../CharacterBody3D")
 libraries = {
 &"": SubResource("AnimationLibrary_qlg0r")
 }
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../CharacterBody3D")
+tree_root = SubResource("AnimationNodeStateMachine_dqkch")
+anim_player = NodePath("../AnimationPlayer")
+parameters/conditions/is_crouching = false
+parameters/conditions/is_not_crouching = false
+parameters/crouch/TimeScale/scale = 1.0
+parameters/uncrouch/TimeScale/scale = 1.0
 
 [node name="Input" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("_player")]
 root_path = NodePath("../CharacterBody3D")

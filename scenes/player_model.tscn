@@ -246,7 +246,7 @@ states/idle/position = Vector2(448.667, 99.5185)
 states/uncrouch/node = SubResource("AnimationNodeBlendTree_vo122")
 states/uncrouch/position = Vector2(929, -52.1481)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_cggpe"), "idle", "crouch", SubResource("AnimationNodeStateMachineTransition_hdi6l"), "crouch", "crouch_idle", SubResource("AnimationNodeStateMachineTransition_vo122"), "crouch_idle", "uncrouch", SubResource("AnimationNodeStateMachineTransition_fr7j6"), "uncrouch", "idle", SubResource("AnimationNodeStateMachineTransition_73kw6"), "crouch", "uncrouch", SubResource("AnimationNodeStateMachineTransition_aw2h2"), "uncrouch", "crouch", SubResource("AnimationNodeStateMachineTransition_uf48d")]
-graph_offset = Vector2(-93, -224)
+graph_offset = Vector2(-131, -174)
 
 [node name="PlayerModel" type="Node3D" node_paths=PackedStringArray("_animationPlayer", "_animationTree")]
 script = ExtResource("1_fr7j6")

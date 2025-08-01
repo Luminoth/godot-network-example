@@ -9,7 +9,7 @@ public partial class PlayerController : CharacterBody3D
     private ShapeCast3D _headCollision;
 
     [Export]
-    private AnimationPlayer _animationPlayer;
+    private AnimationTree _animationTree;
 
     [Export]
     private float _walkSpeed = 5.0f;
@@ -37,19 +37,14 @@ public partial class PlayerController : CharacterBody3D
         {
             _isCrouching = value;
 
+            _moveSpeed = _isCrouching ? _walkSpeed * _crouchSpeedModifier : _walkSpeed;
+
             _player.Model.SetParameter("parameters/conditions/is_crouching", _isCrouching);
             _player.Model.SetParameter("parameters/conditions/is_not_crouching", !_isCrouching);
 
-            if (_isCrouching)
-            {
-                _animationPlayer.Play("crouch", -1.0, 5.0f);
-                _moveSpeed = _walkSpeed * _crouchSpeedModifier;
-            }
-            else
-            {
-                _animationPlayer.Play("crouch", -1.0, -5.0f, true);
-                _moveSpeed = _walkSpeed;
-            }
+            _animationTree.Set("parameters/conditions/is_crouching", _isCrouching);
+            _animationTree.Set("parameters/conditions/is_not_crouching", !_isCrouching);
+
         }
     }
 
@@ -66,6 +61,9 @@ public partial class PlayerController : CharacterBody3D
 
         _player.Model.SetParameter("parameters/crouch/TimeScale/scale", 5.0f);
         _player.Model.SetParameter("parameters/uncrouch/TimeScale/scale", 5.0f);
+
+        _animationTree.Set("parameters/crouch/TimeScale/scale", 5.0f);
+        _animationTree.Set("parameters/uncrouch/TimeScale/scale", 5.0f);
 
         _moveSpeed = _walkSpeed;
     }
