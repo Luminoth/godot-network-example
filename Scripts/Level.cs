@@ -14,10 +14,10 @@ public partial class Level : Node3D
     private LineEdit _addressInput;
 
     [Export]
-    private MultiplayerSpawner _spawner;
+    private MultiplayerSpawner _playerSpawner;
 
     [Export]
-    private Node3D _spawnRoot;
+    private Node3D _playerSpawnRoot;
 
     [Export]
     private PackedScene _playerScene;
@@ -30,7 +30,7 @@ public partial class Level : Node3D
 
     public override void _EnterTree()
     {
-        _spawner.AddSpawnableScene(_playerScene.ResourcePath);
+        _playerSpawner.AddSpawnableScene(_playerScene.ResourcePath);
 
         _addressInput.PlaceholderText = DefaultAddress;
 
@@ -46,7 +46,7 @@ public partial class Level : Node3D
 
         var player = _playerScene.Instantiate<Player>();
         player.ClientId = id;
-        _spawnRoot.AddChild(player, true);
+        _playerSpawnRoot.AddChild(player, true);
     }
 
     private void OnPlayerConnected(long id)

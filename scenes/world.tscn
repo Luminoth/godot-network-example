@@ -28,12 +28,12 @@ size = Vector3(10, 1, 5)
 [sub_resource type="BoxMesh" id="BoxMesh_rwgxs"]
 size = Vector3(10, 1, 5)
 
-[node name="Level" type="Node3D" node_paths=PackedStringArray("_networkUI", "_addressInput", "_spawner", "_spawnRoot")]
+[node name="Level" type="Node3D" node_paths=PackedStringArray("_networkUI", "_addressInput", "_playerSpawner", "_playerSpawnRoot")]
 script = ExtResource("1_rwgxs")
 _networkUI = NodePath("CanvasLayer")
 _addressInput = NodePath("CanvasLayer/VBoxContainer/HBoxContainer/LineEdit")
-_spawner = NodePath("MultiplayerSpawner")
-_spawnRoot = NodePath("MultiplayerSpawner/SpawnRoot")
+_playerSpawner = NodePath("PlayerSpawner")
+_playerSpawnRoot = NodePath("PlayerSpawner/PlayerSpawnRoot")
 _playerScene = ExtResource("1_nnsk1")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -79,10 +79,10 @@ transform = Transform3D(-0.424199, -0.772124, 0.473158, 0, 0.522498, 0.85264, -0
 light_color = Color(0.970242, 0.901911, 0.727636, 1)
 shadow_enabled = true
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-spawn_path = NodePath("SpawnRoot")
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("PlayerSpawnRoot")
 
-[node name="SpawnRoot" type="Node3D" parent="MultiplayerSpawner"]
+[node name="PlayerSpawnRoot" type="Node3D" parent="PlayerSpawner"]
 
 [node name="Floor" type="Node3D" parent="."]
 
