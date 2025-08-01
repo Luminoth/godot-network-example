@@ -39,9 +39,11 @@ public partial class PlayerController : CharacterBody3D
 
             _moveSpeed = _isCrouching ? _walkSpeed * _crouchSpeedModifier : _walkSpeed;
 
+            // TODO: is there a way to do this with one condition and expressions?
             _player.Model.SetParameter("parameters/conditions/is_crouching", _isCrouching);
             _player.Model.SetParameter("parameters/conditions/is_not_crouching", !_isCrouching);
 
+            // TODO: is there a way to do this with one condition and expressions?
             _animationTree.Set("parameters/conditions/is_crouching", _isCrouching);
             _animationTree.Set("parameters/conditions/is_not_crouching", !_isCrouching);
 
