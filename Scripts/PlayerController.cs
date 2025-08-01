@@ -83,10 +83,19 @@ public partial class PlayerController : CharacterBody3D
             velocity += GetGravity() * (float)delta;
         }
 
-        if (_jump && IsOnFloor())
+        if (_jump)
         {
-            velocity.Y = _jumpVelocity;
             _jump = false;
+
+            if (IsOnFloor() && !_headCollision.IsColliding())
+            {
+                velocity.Y = _jumpVelocity;
+
+                if (IsCrouching)
+                {
+                    IsCrouching = false;
+                }
+            }
         }
 
         Vector3 direction = (Transform.Basis * new Vector3(_player.Input.Direction.X, 0, _player.Input.Direction.Y)).Normalized();
